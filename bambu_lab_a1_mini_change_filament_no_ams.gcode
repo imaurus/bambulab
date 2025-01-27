@@ -4,7 +4,7 @@
 ;===== Based on work of eukatree and some contributors (Hillbilly-Phil and pakonambawan)
 ;===== https://github.com/eukatree/Bambu_CustomGCode/
 ;=====
-;===== Updated: 20240907
+;===== Updated: 20250127
 ;================================================
 ;
 ;===== Install instructions (Bambu Studio / Orca Slicer):
@@ -22,7 +22,7 @@
 ; flushing volumes can be set in Bambu Studio as if using an AMS)
 ;
 ;===== machine: A1 mini =========================
-;===== date: 20240830 =======================
+;===== date: 20250127 =======================
 G392 S0
 M1007 S0
 ;M620 S[next_extruder]A ; REMOVED: skips all next code if no AMS is available
@@ -40,9 +40,14 @@ M106 P2 S0
 M104 S[old_filament_temp]
 {endif}
 
-G1 X180 F18000
-G1 X197 F500 ; ADDED: finetuning by pakonambawan
-G1 X180 F500 ; ADDED: finetuning by pakonambawan
+G1 X185 F18000 ; moves next to cutting position
+M17 S ; saves the default stepper current values
+M400 ; waits for commands to complete
+M17 X1 ; sets x stepper current higher
+G1 X197 F400 ; cuts filament a little slower, ADDED: finetuning by pakonambawan
+G1 X185 F500 ; returns back to position before cutting, ADDED: finetuning by pakonambawan
+M400 ; waits for commands to complete
+M17 R ; restores saved stepper current values
 
 M620.1 E F[old_filament_e_feedrate] T{nozzle_temperature_range_high[previous_extruder]}
 M620.10 A0 F[old_filament_e_feedrate]
@@ -254,5 +259,3 @@ M623
 
 G392 S0
 M1007 S1
-
-
