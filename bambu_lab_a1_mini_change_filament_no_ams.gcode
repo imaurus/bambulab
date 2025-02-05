@@ -22,7 +22,7 @@
 ; flushing volumes can be set in Bambu Studio as if using an AMS)
 ;
 ;===== machine: A1 mini =========================
-;===== date: 20250127 =======================
+;===== date: 20240830  =======================
 G392 S0
 M1007 S0
 ;M620 S[next_extruder]A ; REMOVED: skips all next code if no AMS is available
