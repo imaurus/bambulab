@@ -27,7 +27,7 @@ G392 S0
 M1007 S0
 ;M620 S[next_extruder]A ; REMOVED: skips all next code if no AMS is available
 M204 S9000
-{if toolchange_count > 1}
+{if toolchange_count >= 1}
 G17
 G2 Z{max_layer_z + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
 ;=endif= ; MOVED DOWN: To ensure all needed code is executed. Changed curly braces signs to equal signs to solve parse error.
@@ -60,6 +60,17 @@ M620.10 A1 F[new_filament_e_feedrate] L[flush_length] H[nozzle_diameter] T[nozzl
 G1 X0 Y90 F18000
 G1 X-13.5 F9000
 G1 E-13.5 F900
+
+M109 S[old_filament_temp]
+
+;START PLAY SOUND
+M17
+M400 S1
+M1006 S1
+M1006 A0 B20 L100 C37 D20 M40 E42 F20 N60
+M1006 A0 B20 L100 C37 D20 M40 E42 F20 N60
+M1006 A0 B20 L100 C37 D20 M100 E37 F20 N100
+;END PLAY SOUND
 
 ; pause for user to load and press resume
 M400 U1
@@ -98,102 +109,6 @@ M400
 M1002 set_filament_type:{filament_type[next_extruder]}
 {endif}
 
-{if flush_length_1 > 45 && flush_length_2 > 1}
-; WIPE
-M400
-M106 P1 S178
-M400 S3
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-M400
-M106 P1 S0
-{endif}
-
-{if flush_length_2 > 1}
-M106 P1 S60
-; FLUSH_START
-G1 E{flush_length_2 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_2 * 0.02} F50
-G1 E{flush_length_2 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_2 * 0.02} F50
-G1 E{flush_length_2 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_2 * 0.02} F50
-G1 E{flush_length_2 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_2 * 0.02} F50
-G1 E{flush_length_2 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_2 * 0.02} F50
-; FLUSH_END
-G1 E-[new_retract_length_toolchange] F1800
-G1 E[new_retract_length_toolchange] F300
-{endif}
-
-{if flush_length_2 > 45 && flush_length_3 > 1}
-; WIPE
-M400
-M106 P1 S178
-M400 S3
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-M400
-M106 P1 S0
-{endif}
-
-{if flush_length_3 > 1}
-M106 P1 S60
-; FLUSH_START
-G1 E{flush_length_3 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_3 * 0.02} F50
-G1 E{flush_length_3 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_3 * 0.02} F50
-G1 E{flush_length_3 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_3 * 0.02} F50
-G1 E{flush_length_3 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_3 * 0.02} F50
-G1 E{flush_length_3 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_3 * 0.02} F50
-; FLUSH_END
-G1 E-[new_retract_length_toolchange] F1800
-G1 E[new_retract_length_toolchange] F300
-{endif}
-
-{if flush_length_3 > 45 && flush_length_4 > 1}
-; WIPE
-M400
-M106 P1 S178
-M400 S3
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-G1 X-3.5 F18000
-G1 X-13.5 F3000
-M400
-M106 P1 S0
-{endif}
-
-{if flush_length_4 > 1}
-M106 P1 S60
-; FLUSH_START
-G1 E{flush_length_4 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_4 * 0.02} F50
-G1 E{flush_length_4 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_4 * 0.02} F50
-G1 E{flush_length_4 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_4 * 0.02} F50
-G1 E{flush_length_4 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_4 * 0.02} F50
-G1 E{flush_length_4 * 0.18} F{new_filament_e_feedrate}
-G1 E{flush_length_4 * 0.02} F50
-; FLUSH_END
-{endif}
 
 M629
 
