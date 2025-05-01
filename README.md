@@ -8,3 +8,8 @@ Other contributors for the A1 Mini Filament Change code: Hillbilly-Phil and pako
 
 
 This is currently focussed on the Bambu Lab A1 Mini printer but might I add other content (e.g. X1C or even other models) later.
+
+My modifications: 
+-Possibility to use the code even without Prime Tower
+-Removed extra filament purge after filament change
+-Added useful audio signal to notify the filament change
